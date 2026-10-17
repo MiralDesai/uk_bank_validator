@@ -9,3 +9,6 @@
 
 # rspec failure tracking
 .rspec_status
+
+# project plan (internal, not for release)
+plan.md

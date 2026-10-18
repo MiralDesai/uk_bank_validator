@@ -9,4 +9,5 @@ require "rubocop/rake_task"
 
 RuboCop::RakeTask.new
 
-task default: %i[spec rubocop]
+# Build the gem as part of the default task so packaging problems fail CI.
+task default: %i[spec rubocop build]

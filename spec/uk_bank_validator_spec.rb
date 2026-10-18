@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe UkBankValidator do
-  it "has a version number" do
-    expect(UkBankValidator::VERSION).not_to be nil
-  end
-
-  it "does something useful" do
-    expect(false).to eq(true)
+  it "has a semantic version number" do
+    expect(UkBankValidator::VERSION).to match(/\A\d+\.\d+\.\d+\z/)
   end
 end

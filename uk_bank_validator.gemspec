@@ -8,34 +8,29 @@ Gem::Specification.new do |spec|
   spec.authors = ["Miral Desai"]
   spec.email = ["13769268+MiralDesai@users.noreply.github.com"]
 
-  spec.summary = "TODO: Write a short summary, because RubyGems requires one."
-  spec.description = "TODO: Write a longer description or delete this line."
-  spec.homepage = "TODO: Put your gem's website or public repo URL here."
+  spec.summary = "Fast local validation and normalisation of UK account numbers and sort codes"
+  spec.description = <<~DESCRIPTION.strip
+    Validates and normalises UK bank account numbers and sort codes locally, with zero network
+    calls and no runtime dependencies. Returns structured errors and the normalised values ready to use.
+  DESCRIPTION
+  spec.homepage = "https://github.com/MiralDesai/uk_bank_validator"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 4.0"
-
-  spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
+  spec.required_ruby_version = ">= 3.4"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = "#{spec.homepage}/tree/v#{spec.version}"
+  spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/v#{spec.version}/CHANGELOG.md"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
+  # Include only files tracked by git, minus development-only paths.
   gemspec = File.basename(__FILE__)
+  development_files = %w[.rspec .rubocop.yml .ruby-version Rakefile].freeze
   spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|
-    ls.readlines("\x0", chomp: true).reject do |f|
-      (f == gemspec) ||
-        f.start_with?(*%w[bin/ test/ spec/ features/ .git .github appveyor Gemfile])
+    ls.readlines("\x0", chomp: true).reject do |file|
+      (file == gemspec) ||
+        file.start_with?(*%w[bin/ spec/ features/ .git .github Gemfile]) ||
+        development_files.include?(file)
     end
   end
-  spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-
-  # Uncomment to register a new dependency of your gem
-  # spec.add_dependency "example-gem", "~> 1.0"
-
-  # For more information and examples about making a new gem, check out our
-  # guide at: https://bundler.io/guides/creating_gem.html
 end
